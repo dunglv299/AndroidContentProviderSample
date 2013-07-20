@@ -48,8 +48,6 @@ public class MainActivity extends FragmentActivity implements
 		btnUpdate = (Button) findViewById(R.id.update_btn);
 		btnDelete = (Button) findViewById(R.id.delete_btn);
 		mDatabaseHelper = new DatabaseHelper(getApplicationContext());
-		// open to read and write
-		mDatabaseHelper.getWritableDatabase();
 
 		AsyncTaskExecute insertTask = new AsyncTaskExecute("loadComplete",
 				"loadError", this);
@@ -84,6 +82,7 @@ public class MainActivity extends FragmentActivity implements
 				R.layout.single_item_listview, null, uiBindFrom, uiBindTo,
 				CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
+		// bind values fom the Cursor to views
 		ViewBinder viewBinder = new ViewBinder() {
 
 			public boolean setViewValue(View view, Cursor cursor,

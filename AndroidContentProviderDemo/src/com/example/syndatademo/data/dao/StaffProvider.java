@@ -106,7 +106,6 @@ public class StaffProvider extends ContentProvider {
 			// query the database for all staff
 			c = getDb().query(STAFF_TABLE_NAME, projection, selection,
 					selectionArgs, null, null, orderBy);
-
 			c.setNotificationUri(getContext().getContentResolver(), CONTENT_URI);
 			break;
 
@@ -152,10 +151,10 @@ public class StaffProvider extends ContentProvider {
 		SQLiteDatabase db = getDb();
 		long rowId = db.insert(STAFF_TABLE_NAME, null, values);
 		if (rowId > 0) {
-			Uri videoURi = ContentUris.withAppendedId(CONTENT_URI, rowId);
-			getContext().getContentResolver().notifyChange(videoURi, null);
-			Log.e("videoURi", videoURi + "");
-			return videoURi;
+			Uri item = ContentUris.withAppendedId(CONTENT_URI, rowId);
+			getContext().getContentResolver().notifyChange(item, null);
+			Log.e("item insert", item + "");
+			return item;
 		}
 
 		throw new SQLException("Failed to insert row into " + uri);
