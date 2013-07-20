@@ -32,7 +32,7 @@ import android.util.Log;
 
 public class StaffProvider extends ContentProvider {
 	private DatabaseHelper mDatabaseHelper;
-	public static final String STAFF_BASE_PATH = "staff";
+	public static final String STAFF_BASE_PATH = "staffManager";
 	public static final String AUTHORITY = "dunglv.abcxyz";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + STAFF_BASE_PATH);
@@ -90,7 +90,7 @@ public class StaffProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		Log.e("query", "query");
+		Log.e("query Data", "query Data");
 		String orderBy;
 		if (TextUtils.isEmpty(sortOrder)) {
 			orderBy = DEFAULT_SORT_ORDER;

@@ -160,6 +160,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		// TODO Auto-generated method stub
+		Log.e("Start Query", "Start Query");
 		CursorLoader cursorLoader = new CursorLoader(this,
 				StaffProvider.CONTENT_URI, null, null, null, null);
 		Log.e("uri", StaffProvider.CONTENT_URI + "");
