@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.syndatademo.business.model.Staff;
-import com.example.syndatademo.data.DatabaseHelper;
+import com.example.syndatademo.data.dao.StaffShema;
 import com.qsoft.androidnetwork.ServiceHelper;
 
 public class StaffSAO {
@@ -41,8 +41,8 @@ public class StaffSAO {
 
 	private Staff parserStaff(JSONObject json) throws JSONException {
 		Staff staff = new Staff();
-		staff.setName(json.getString(DatabaseHelper.NAME));
-		staff.setAddress(json.getString(DatabaseHelper.ADDRESS));
+		staff.setName(json.getString(StaffShema.NAME));
+		staff.setAddress(json.getString(StaffShema.ADDRESS));
 		return staff;
 	}
 }

@@ -6,11 +6,13 @@ import java.util.List;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import com.example.syndatademo.business.model.Staff;
 import com.example.syndatademo.data.DatabaseHelper;
 import com.example.syndatademo.data.dao.Authority;
+import com.example.syndatademo.data.dao.StaffShema;
 import com.example.syndatademo.data.sao.StaffSAO;
 import com.qsoft.androidnetwork.AsyncTaskExecute;
 
@@ -75,7 +78,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	private void setAdapter() {
-		String[] uiBindFrom = { DatabaseHelper.NAME, DatabaseHelper.ADDRESS };
+		String[] uiBindFrom = { StaffShema.NAME, StaffShema.ADDRESS };
 		int[] uiBindTo = { R.id.name_tv, R.id.address_tv };
 
 		getSupportLoaderManager().initLoader(0, null, this);
@@ -117,8 +120,8 @@ public class MainActivity extends FragmentActivity implements
 		// Defines an object to contain the updated values
 		Log.e("update", "update");
 		ContentValues mUpdateValues = new ContentValues();
-		mUpdateValues.put(DatabaseHelper.NAME, "Dung lv");
-		mUpdateValues.put(DatabaseHelper.ADDRESS, "abc");
+		mUpdateValues.put(StaffShema.NAME, "Dung lv");
+		mUpdateValues.put(StaffShema.ADDRESS, "abc");
 		Uri uri = Uri.parse(Authority.BASE_CONTENT_URI + "/" + id);
 		getContentResolver().update(uri, mUpdateValues, null, null);
 	}
