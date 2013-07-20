@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.syndatademo.business.model.Staff;
-import com.example.syndatademo.data.DatabaseHelper;
+import com.example.syndatademo.data.dao.DatabaseHelper;
 import com.example.syndatademo.data.dao.StaffProvider;
 import com.example.syndatademo.data.sao.StaffSAO;
 import com.qsoft.androidnetwork.AsyncTaskExecute;
@@ -33,7 +33,6 @@ import com.qsoft.androidnetwork.AsyncTaskExecute;
 public class MainActivity extends FragmentActivity implements
 		LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
 	private ListView listView;
-	private DatabaseHelper mDatabaseHelper;
 	private List<Staff> listStaff;
 	// private ListViewAdapter adapter;
 	SimpleCursorAdapter mAdapter;
@@ -47,7 +46,6 @@ public class MainActivity extends FragmentActivity implements
 		listView = (ListView) findViewById(R.id.listView1);
 		btnUpdate = (Button) findViewById(R.id.update_btn);
 		btnDelete = (Button) findViewById(R.id.delete_btn);
-		mDatabaseHelper = new DatabaseHelper(getApplicationContext());
 
 		AsyncTaskExecute insertTask = new AsyncTaskExecute("loadComplete",
 				"loadError", this);

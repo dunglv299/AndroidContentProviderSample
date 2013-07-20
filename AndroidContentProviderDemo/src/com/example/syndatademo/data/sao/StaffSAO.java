@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.syndatademo.business.model.Staff;
-import com.example.syndatademo.data.DatabaseHelper;
+import com.example.syndatademo.data.dao.DatabaseHelper;
 import com.qsoft.androidnetwork.ServiceHelper;
 
 public class StaffSAO {

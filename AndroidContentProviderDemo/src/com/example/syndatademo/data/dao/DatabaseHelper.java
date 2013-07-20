@@ -1,4 +1,4 @@
-package com.example.syndatademo.data;
+package com.example.syndatademo.data.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

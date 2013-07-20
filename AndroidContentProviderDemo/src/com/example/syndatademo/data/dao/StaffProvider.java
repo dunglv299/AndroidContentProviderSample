@@ -30,8 +30,6 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.syndatademo.data.DatabaseHelper;
-
 public class StaffProvider extends ContentProvider {
 	private DatabaseHelper mDatabaseHelper;
 	public static final String STAFF_BASE_PATH = "staff";
