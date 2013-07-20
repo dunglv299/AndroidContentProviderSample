@@ -17,6 +17,7 @@
 package com.example.syndatademo.data.dao;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -33,10 +34,19 @@ import com.example.syndatademo.data.DatabaseHelper;
 
 public class StaffProvider extends ContentProvider {
 	private DatabaseHelper mDatabaseHelper;
+	public static final String STAFF_BASE_PATH = "staff";
+	public static final String AUTHORITY = "dunglv.abcxyz";
+	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
+			+ "/" + STAFF_BASE_PATH);
 
 	private static final int ALL_STAFFS = 1;
 	private static final int STAFF_ID = 2;
 	public static final String STAFF_TABLE_NAME = "tblStaff";
+	public static final String DEFAULT_SORT_ORDER = "_ID ASC";
+	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+			+ "/staff";
+	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+			+ "/staffs";
 
 	/**
 	 * UriMatcher, used to decode incoming URIs.
@@ -44,11 +54,9 @@ public class StaffProvider extends ContentProvider {
 	private static UriMatcher sUriMatcher;
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		sUriMatcher.addURI(Authority.CONTENT_AUTHORITY, Authority.ITEM_NAME,
-				ALL_STAFFS);
+		sUriMatcher.addURI(AUTHORITY, STAFF_BASE_PATH, ALL_STAFFS);
 		// use of the hash character indicates matching of an id
-		sUriMatcher.addURI(Authority.CONTENT_AUTHORITY, Authority.ITEM_NAME
-				+ "/#", STAFF_ID);
+		sUriMatcher.addURI(AUTHORITY, STAFF_BASE_PATH + "/#", STAFF_ID);
 	}
 
 	@Override
@@ -65,9 +73,9 @@ public class StaffProvider extends ContentProvider {
 		final int match = sUriMatcher.match(uri);
 		switch (match) {
 		case ALL_STAFFS:
-			return Authority.StaffColumn.CONTENT_TYPE;
+			return CONTENT_TYPE;
 		case STAFF_ID:
-			return Authority.StaffColumn.CONTENT_ITEM_TYPE;
+			return CONTENT_ITEM_TYPE;
 		default:
 			throw new UnsupportedOperationException("Unknown uri: " + uri);
 		}
@@ -87,7 +95,7 @@ public class StaffProvider extends ContentProvider {
 		Log.e("query", "query");
 		String orderBy;
 		if (TextUtils.isEmpty(sortOrder)) {
-			orderBy = Authority.StaffColumn.DEFAULT_SORT_ORDER;
+			orderBy = DEFAULT_SORT_ORDER;
 		} else {
 			orderBy = sortOrder;
 		}
@@ -99,8 +107,7 @@ public class StaffProvider extends ContentProvider {
 			c = getDb().query(STAFF_TABLE_NAME, projection, selection,
 					selectionArgs, null, null, orderBy);
 
-			c.setNotificationUri(getContext().getContentResolver(),
-					Authority.BASE_CONTENT_URI);
+			c.setNotificationUri(getContext().getContentResolver(), CONTENT_URI);
 			break;
 
 		case STAFF_ID:
@@ -145,8 +152,7 @@ public class StaffProvider extends ContentProvider {
 		SQLiteDatabase db = getDb();
 		long rowId = db.insert(STAFF_TABLE_NAME, null, values);
 		if (rowId > 0) {
-			Uri videoURi = ContentUris.withAppendedId(
-					Authority.BASE_CONTENT_URI, rowId);
+			Uri videoURi = ContentUris.withAppendedId(CONTENT_URI, rowId);
 			getContext().getContentResolver().notifyChange(videoURi, null);
 			Log.e("videoURi", videoURi + "");
 			return videoURi;
@@ -157,13 +163,14 @@ public class StaffProvider extends ContentProvider {
 
 	private void verifyValues(ContentValues values) {
 		// Make sure that the fields are all set
-		if (!values.containsKey(StaffShema.NAME)) {
+		if (!values.containsKey(DatabaseHelper.NAME)) {
 			Resources r = Resources.getSystem();
-			values.put(StaffShema.NAME, r.getString(android.R.string.untitled));
+			values.put(DatabaseHelper.NAME,
+					r.getString(android.R.string.untitled));
 		}
 
-		if (!values.containsKey(StaffShema.ADDRESS)) {
-			values.put(StaffShema.ADDRESS, "");
+		if (!values.containsKey(DatabaseHelper.ADDRESS)) {
+			values.put(DatabaseHelper.ADDRESS, "");
 		}
 	}
 

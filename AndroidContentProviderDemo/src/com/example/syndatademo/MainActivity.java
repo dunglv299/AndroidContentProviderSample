@@ -6,13 +6,11 @@ import java.util.List;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -28,8 +26,7 @@ import android.widget.TextView;
 
 import com.example.syndatademo.business.model.Staff;
 import com.example.syndatademo.data.DatabaseHelper;
-import com.example.syndatademo.data.dao.Authority;
-import com.example.syndatademo.data.dao.StaffShema;
+import com.example.syndatademo.data.dao.StaffProvider;
 import com.example.syndatademo.data.sao.StaffSAO;
 import com.qsoft.androidnetwork.AsyncTaskExecute;
 
@@ -78,7 +75,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	private void setAdapter() {
-		String[] uiBindFrom = { StaffShema.NAME, StaffShema.ADDRESS };
+		String[] uiBindFrom = { DatabaseHelper.NAME, DatabaseHelper.ADDRESS };
 		int[] uiBindTo = { R.id.name_tv, R.id.address_tv };
 
 		getSupportLoaderManager().initLoader(0, null, this);
@@ -93,14 +90,14 @@ public class MainActivity extends FragmentActivity implements
 					int columnIndex) {
 				int viewId = view.getId();
 				switch (viewId) {
-				case Authority.StaffColumn.NAME_COLUMN_NUMBER:
+				case R.id.name_tv:
 					TextView nameTextView = (TextView) view
 							.findViewById(R.id.name_tv);
 					String name = cursor.getString(columnIndex);
 					Log.e("name", name);
 					nameTextView.setText("Name: " + name);
 					break;
-				case Authority.StaffColumn.ADDRESS_COLUMN_NUMBER:
+				case R.id.address_tv:
 					TextView addressTextView = (TextView) view
 							.findViewById(R.id.address_tv);
 					String address = cursor.getString(columnIndex);
@@ -120,15 +117,15 @@ public class MainActivity extends FragmentActivity implements
 		// Defines an object to contain the updated values
 		Log.e("update", "update");
 		ContentValues mUpdateValues = new ContentValues();
-		mUpdateValues.put(StaffShema.NAME, "Dung lv");
-		mUpdateValues.put(StaffShema.ADDRESS, "abc");
-		Uri uri = Uri.parse(Authority.BASE_CONTENT_URI + "/" + id);
+		mUpdateValues.put(DatabaseHelper.NAME, "Dung lv");
+		mUpdateValues.put(DatabaseHelper.ADDRESS, "abc");
+		Uri uri = Uri.parse(StaffProvider.CONTENT_URI + "/" + id);
 		getContentResolver().update(uri, mUpdateValues, null, null);
 	}
 
 	public void delete(int id) {
 		// Defines an object to contain the deleted values
-		Uri uri = Uri.parse(Authority.BASE_CONTENT_URI + "/" + id);
+		Uri uri = Uri.parse(StaffProvider.CONTENT_URI + "/" + id);
 		getContentResolver().delete(uri, null, null);
 	}
 
@@ -155,7 +152,7 @@ public class MainActivity extends FragmentActivity implements
 			ContentValues values = new ContentValues();
 			values.put("name", staff.getName());
 			values.put("address", staff.getAddress());
-			getContentResolver().insert(Authority.BASE_CONTENT_URI, values);
+			getContentResolver().insert(StaffProvider.CONTENT_URI, values);
 		}
 	}
 
@@ -167,8 +164,8 @@ public class MainActivity extends FragmentActivity implements
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		// TODO Auto-generated method stub
 		CursorLoader cursorLoader = new CursorLoader(this,
-				Authority.BASE_CONTENT_URI, null, null, null, null);
-		Log.e("uri", Authority.BASE_CONTENT_URI + "");
+				StaffProvider.CONTENT_URI, null, null, null, null);
+		Log.e("uri", StaffProvider.CONTENT_URI + "");
 		return cursorLoader;
 	}
 
