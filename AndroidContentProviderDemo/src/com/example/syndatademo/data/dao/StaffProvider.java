@@ -157,13 +157,14 @@ public class StaffProvider extends ContentProvider {
 
 	private void verifyValues(ContentValues values) {
 		// Make sure that the fields are all set
-		if (!values.containsKey(StaffShema.NAME)) {
+		if (!values.containsKey(DatabaseHelper.NAME)) {
 			Resources r = Resources.getSystem();
-			values.put(StaffShema.NAME, r.getString(android.R.string.untitled));
+			values.put(DatabaseHelper.NAME,
+					r.getString(android.R.string.untitled));
 		}
 
-		if (!values.containsKey(StaffShema.ADDRESS)) {
-			values.put(StaffShema.ADDRESS, "");
+		if (!values.containsKey(DatabaseHelper.ADDRESS)) {
+			values.put(DatabaseHelper.ADDRESS, "");
 		}
 	}
 
