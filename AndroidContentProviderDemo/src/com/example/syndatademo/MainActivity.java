@@ -129,7 +129,7 @@ public class MainActivity extends FragmentActivity implements
 	public void doLoad() {
 		try {
 			listStaff = new StaffSAO()
-					.getAllStaff("http://192.168.1.36/accounts.json");
+					.getAllStaff("http://172.16.10.13/accounts.json");
 		} catch (ConnectTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
